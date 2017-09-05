@@ -8,19 +8,19 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 class GameObject(object):
     __metaclass__ = ABCMeta
 
-    max_speed = 5
-    min_size, max_size = 10, 50
+    max_speed = 0.1
+    min_size, max_size = 25, 50
 
     def __init__(self, x, y, x_speed=None, y_speed=None, size=None, color=None):
         '''Create a new circle at the given x,y point with a random speed, color, and size.'''
         self.x = x
         self.y = y
         if x_speed == None:
-            self.x_speed = random.randint(-self.max_speed, self.max_speed)
+            self.x_speed = (random.random()-0.05)*self.max_speed/10.0
         else:
             self.x_speed = x_speed
         if y_speed == None:
-            self.y_speed = random.randint(-self.max_speed, self.max_speed)
+            self.y_speed = (random.random()-0.05)*self.max_speed/10.0
         else:
             self.y_speed = y_speed
         # this creates a random hex string between #000000 and #ffffff
@@ -65,7 +65,7 @@ class GameObject(object):
 
 class Circle(GameObject):
     __metaclass__ = ABCMeta
-    min_size, max_size = 7, 100
+    min_size, max_size = 20, 70
     max_speed = 15
     x,y,size,x_speed,y_speed=0,0,0,0,0
     max_size = 50
@@ -75,7 +75,7 @@ class Circle(GameObject):
         canvas.create_oval(self.x - self.size/2, self.y - self.size/2, self.x + self.size/2, self.y + self.size/2, fill=self.color, outline="black")
 
 class Canvas(object):
-    def __init__(self, width=400, height=400, bounce=False, tesselate=False, collide=True, delay=33):
+    def __init__(self, width=400, height=400, bounce=False, tesselate=False, collide=True, delay=1):
         self.root = Tkinter.Tk()
         self.canvas = Tkinter.Canvas(self.root, width=width, height=height)
         self.canvas.pack()
@@ -123,24 +123,24 @@ class Canvas(object):
         self.root.mainloop() # keep the window open
 
     def checkBounce(self, game_object):
-        if game_object.x >= self.width or game_object.x <= 0:
+        if (game_object.x + game_object.size/2 >= self.width and game_object.x_speed > 0) or (game_object.x - game_object.size/2 <= 0  and game_object.x_speed < 0):
             game_object.x_speed = -game_object.x_speed
-        if game_object.y >= self.height or game_object.y <= 0:
+        if (game_object.y + game_object.size/2 >= self.height and game_object.y_speed > 0) or (game_object.y - game_object.size/2 <= 0 and game_object.y_speed < 0):
             game_object.y_speed = -game_object.y_speed
 
     def checkTesselate(self, game_object):
-        if game_object.x >= self.width:
+        if game_object.x + game_object.size/2 >= self.width and game_object.x_speed > 0:
             game_object.x -= self.width
-        elif game_object.x <= 0:
+        elif game_object.x - game_object.size/2 <= 0 and game_object.x_speed < 0:
             game_object.x += self.width
-        if game_object.y >= self.height:
+        if game_object.y + game_object.size/2 >= self.height and game_object.y_speed > 0:
             game_object.y -= self.height
-        elif game_object.y <= 0:
+        elif game_object.y - game_object.size/2 <= 0 and game_object.y_speed < 0:
             game_object.y += self.height
 
     def checkCollision(self, game_object_1, game_object_2):
         distance = np.sqrt((game_object_1.x-game_object_2.x)**2 + (game_object_1.y-game_object_2.y)**2)
-        min_distance = game_object_1.size + game_object_2.size
+        min_distance = (game_object_1.size + game_object_2.size)/2.0
         if distance <= min_distance:
             game_object_1.mass = game_object_1.size**2
             game_object_1.direction = np.arctan2(game_object_1.y_speed, game_object_1.x_speed)
@@ -154,11 +154,18 @@ class Canvas(object):
             b1 = game_object_1.speed*np.sin(game_object_1.direction-collisionAngle)
             a2 = (game_object_2.speed*np.cos(game_object_2.direction-collisionAngle)*(game_object_2.mass-game_object_1.mass)+2*game_object_1.mass*game_object_1.speed*np.cos(game_object_1.direction-collisionAngle))/(game_object_2.mass+game_object_1.mass)
             b2 = game_object_2.speed*np.sin(game_object_2.direction-collisionAngle)
+            cos = np.cos(collisionAngle)
+            sin = np.sin(collisionAngle)
+            
+            game_object_1.x_speed = a1*cos - b1*sin
+            game_object_2.x_speed = a2*cos + b2*sin
+            game_object_1.y_speed = a1*sin + b1*cos
+            game_object_2.y_speed = a2*sin + b2*cos
 
-            game_object_1.x_speed = a1*np.cos(collisionAngle)+b1*np.cos(collisionAngle+90)
-            game_object_2.x_speed = a2*np.cos(collisionAngle)+b2*np.cos(collisionAngle+90)
-            game_object_1.y_speed = a1*np.sin(collisionAngle)+b1*np.sin(collisionAngle+90)
-            game_object_2.y_speed = a2*np.sin(collisionAngle)+b2*np.sin(collisionAngle+90)
+            # game_object_1.x_speed = -game_object_1.x_speed
+            # game_object_1.y_speed = -game_object_1.y_speed
+            # game_object_2.x_speed = -game_object_2.x_speed
+            # game_object_2.y_speed = -game_object_2.y_speed
 
     def addGameObject(self, game_object):
         if isinstance(game_object, GameObject):
@@ -179,9 +186,9 @@ class Canvas(object):
 # automatically
 if __name__ == '__main__':
 
-    canvas = Canvas(bounce=True)
+    canvas = Canvas(tesselate=True)#bounce=True)
 
-    for i in range(10):
+    for i in range(4):
         x, y = random.randint(Circle.max_size, canvas.width-Circle.max_size), random.randint(Circle.max_size, canvas.height-Circle.max_size)
         canvas.addCircleAtPos(x, y)
     
