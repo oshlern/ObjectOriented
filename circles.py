@@ -179,6 +179,12 @@ class Canvas(object):
         '''Add a new circle where the user clicked.'''
         self.addCircleAtPos(event.x, event.y)
 
+    def resetSize(self, event):
+        print event.width, event.height
+        if event.width == 406: # funky error
+            return
+        self.width = event.width
+        self.height = event.height
 
 # this is a standard Python thing: definitions go above, and any code that will actually
 # run should go into the __main__ section. This way, if someone imports the file because
@@ -188,13 +194,14 @@ if __name__ == '__main__':
 
     canvas = Canvas(tesselate=True)#bounce=True)
 
-    for i in range(4):
+    for i in range(3):
         x, y = random.randint(Circle.max_size, canvas.width-Circle.max_size), random.randint(Circle.max_size, canvas.height-Circle.max_size)
         canvas.addCircleAtPos(x, y)
     
     # if the user presses a key or the mouse, call our handlers
     canvas.root.bind('<Key-r>', canvas.reset)
     canvas.root.bind('<Button-1>', canvas.addCircleAtClick)
+    canvas.root.bind("<Configure>", canvas.resetSize)
 
     # start the draw loop
     canvas.run()
