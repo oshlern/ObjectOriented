@@ -9,18 +9,18 @@ class GameObject(object):
     __metaclass__ = ABCMeta
 
     max_speed = 0.1
-    min_size, max_size = 25, 50
+    min_size, max_size = 10, 20
 
     def __init__(self, x, y, x_speed=None, y_speed=None, size=None, color=None):
         '''Create a new circle at the given x,y point with a random speed, color, and size.'''
         self.x = x
         self.y = y
         if x_speed == None:
-            self.x_speed = (random.random()-0.05)*self.max_speed/10.0
+            self.x_speed = (random.random()-0.5)*self.max_speed/10.0
         else:
             self.x_speed = x_speed
         if y_speed == None:
-            self.y_speed = (random.random()-0.05)*self.max_speed/10.0
+            self.y_speed = (random.random()-0.5)*self.max_speed/10.0
         else:
             self.y_speed = y_speed
         # this creates a random hex string between #000000 and #ffffff
@@ -65,14 +65,31 @@ class GameObject(object):
 
 class Circle(GameObject):
     __metaclass__ = ABCMeta
-    min_size, max_size = 20, 70
+    min_size, max_size = 8, 15
     max_speed = 15
     x,y,size,x_speed,y_speed=0,0,0,0,0
-    max_size = 50
 
     def draw(self, canvas):
         '''Draw self on the canvas.'''
         canvas.create_oval(self.x - self.size/2, self.y - self.size/2, self.x + self.size/2, self.y + self.size/2, fill=self.color, outline="black")
+
+class Rectangle(GameObject):
+    __metaclass__ = ABCMeta
+    min_size, max_size = 10, 15
+    max_speed = 15
+    x,y,size,x_speed,y_speed=0,0,0,0,0
+    max_size = 50
+
+    def __init__(self, x, y, x_speed=None, y_speed=None, size=None, color=None):
+        super(Rectangle, self).__init__(x, y, x_speed, y_speed, size, color)
+        self.width = random.randint(self.min_size, self.max_size)
+        self.height = random.randint(self.min_size, self.max_size)
+        self.size = np.sqrt(self.width**2 + self.height**2)
+        # self.size = max([self.width, self.height])
+
+    def draw(self, canvas):
+        '''Draw self on the canvas.'''
+        canvas.create_rectangle(self.x - self.width/2, self.y - self.height/2, self.x + self.width/2, self.y + self.height/2, fill=self.color, outline="black")
 
 class Canvas(object):
     def __init__(self, width=400, height=400, bounce=False, tesselate=False, collide=True, delay=1):
@@ -162,26 +179,23 @@ class Canvas(object):
             game_object_1.y_speed = a1*sin + b1*cos
             game_object_2.y_speed = a2*sin + b2*cos
 
-            # game_object_1.x_speed = -game_object_1.x_speed
-            # game_object_1.y_speed = -game_object_1.y_speed
-            # game_object_2.x_speed = -game_object_2.x_speed
-            # game_object_2.y_speed = -game_object_2.y_speed
-
     def addGameObject(self, game_object):
         if isinstance(game_object, GameObject):
             self.game_objects.append(game_object)
 
-    def addCircleAtPos(self, x, y):
-        circle = Circle(x, y)
-        self.addGameObject(circle)
-
     def addCircleAtClick(self, event):
         '''Add a new circle where the user clicked.'''
-        self.addCircleAtPos(event.x, event.y)
+        circle = Circle(event.x, event.y)
+        self.addGameObject(circle)
+
+    def addRectangleAtClick(self, event):
+        '''Add a new circle where the user clicked.'''
+        rectangle = Rectangle(event.x, event.y)
+        self.addGameObject(rectangle)
 
     def resetSize(self, event):
         print event.width, event.height
-        if event.width == 406: # funky error
+        if event.width == 406 or event.width == 1: # funky error
             return
         self.width = event.width
         self.height = event.height
@@ -192,11 +206,11 @@ class Canvas(object):
 # automatically
 if __name__ == '__main__':
 
-    canvas = Canvas(tesselate=True)#bounce=True)
+    canvas = Canvas(tesselate=True,bounce=True,delay=1)#bounce=True)#tesselate=True)#bounce=True)
 
     for i in range(3):
         x, y = random.randint(Circle.max_size, canvas.width-Circle.max_size), random.randint(Circle.max_size, canvas.height-Circle.max_size)
-        canvas.addCircleAtPos(x, y)
+        canvas.addGameObject(Circle(x, y))
     
     # if the user presses a key or the mouse, call our handlers
     canvas.root.bind('<Key-r>', canvas.reset)

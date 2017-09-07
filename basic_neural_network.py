@@ -7,12 +7,17 @@ class Data(Object):
 			self.X = np.array(self.X)
 		except:
 			raise Exception("Data cannot be converted into np array. Make sure it is of a constant type and shape")
+		self.inp = self.inputs = self.X
 		self.shape = self.in_shape = self.X.shape
 		self.X = X
 		if y == None:
 			self.labeled = False
 		else:
-			self.labeled = True
+			try:
+				self.X = np.array(self.X)
+			except:
+				raise Exception("Data cannot be converted into np array. Make sure it is of a constant type and shape")
+		self.labeled = True
 			self.y = self.labels = y
 			self.out_shape = y.shape
 
