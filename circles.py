@@ -8,7 +8,7 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 class GameObject(object):
     __metaclass__ = ABCMeta
 
-    max_speed = 0.1
+    max_speed = 10
     min_size, max_size = 10, 20
 
     def __init__(self, x, y, x_speed=None, y_speed=None, size=None, color=None):
@@ -32,7 +32,7 @@ class GameObject(object):
         if size == None:
             self.size = random.randint(self.min_size, self.max_size)
         else:
-            self.size = None
+            self.size = 1
 
     @abstractmethod
     def draw(self, canvas):
@@ -67,7 +67,7 @@ class Circle(GameObject):
     __metaclass__ = ABCMeta
     min_size, max_size = 8, 15
     max_speed = 15
-    x,y,size,x_speed,y_speed=0,0,0,0,0
+    x, y, size, x_speed, y_speed=0, 0, 0, 0, 0
 
     def draw(self, canvas):
         '''Draw self on the canvas.'''
@@ -75,10 +75,9 @@ class Circle(GameObject):
 
 class Rectangle(GameObject):
     __metaclass__ = ABCMeta
-    min_size, max_size = 10, 15
+    min_size, max_size = 10, 25
     max_speed = 15
-    x,y,size,x_speed,y_speed=0,0,0,0,0
-    max_size = 50
+    x, y, size, x_speed, y_speed = 0, 0, 0, 0, 0
 
     def __init__(self, x, y, x_speed=None, y_speed=None, size=None, color=None):
         super(Rectangle, self).__init__(x, y, x_speed, y_speed, size, color)
@@ -90,6 +89,37 @@ class Rectangle(GameObject):
     def draw(self, canvas):
         '''Draw self on the canvas.'''
         canvas.create_rectangle(self.x - self.width/2, self.y - self.height/2, self.x + self.width/2, self.y + self.height/2, fill=self.color, outline="black")
+
+def generatePoint(angle, distance):
+    return (distance*np.cos(angle), distance*np.sin(angle))
+
+class RandomShape(GameObject):
+    __metaclass__ = ABCMeta
+    min_size, max_size = 4, 25
+    min_sides, max_sides = 3, 10
+    x, y, size, x_speed, y_speed = 0, 0, 0, 0, 0
+
+    def __init__(self, x, y, x_speed=None, y_speed=None, size=None, color=None, num_sides=None):
+        super(RandomShape, self).__init__(x, y, x_speed, y_speed, size, color)
+        if num_sides == None:
+            self.num_sides = random.randint(self.min_sides, self.max_sides)
+        else:
+            self.num_sides = num_sides
+        self.points = []
+        self.size = 0
+        for i in range(self.num_sides):
+            length = random.uniform(self.min_size, self.max_size)
+            if length > self.size:
+                self.size = length 
+            self.points.append(generatePoint(2*np.pi/self.num_sides*i, length))
+        self.size *= 2
+
+    def draw(self, canvas):
+        current_points = []
+        for (x,y) in self.points:
+            current_points.append(self.x + x)
+            current_points.append(self.y + y)
+        canvas.create_polygon(*current_points, fill=self.color, outline="black")
 
 class Canvas(object):
     def __init__(self, width=400, height=400, bounce=False, tesselate=False, collide=True, delay=1):
@@ -189,9 +219,18 @@ class Canvas(object):
         self.addGameObject(circle)
 
     def addRectangleAtClick(self, event):
-        '''Add a new circle where the user clicked.'''
+        '''Add a new rectangle where the user clicked.'''
         rectangle = Rectangle(event.x, event.y)
         self.addGameObject(rectangle)
+
+    def addShapeAtClick(self, event):
+        '''Add a new shape where the user clicked.'''
+        shape = RandomShape(event.x, event.y)
+        self.addGameObject(shape)
+
+    def addObjectAtClick(self, event):
+        addType = np.random.choice([self.addCircleAtClick, self.addRectangleAtClick, self.addShapeAtClick], p=[0.5,0.15,0.35])
+        addType(event)
 
     def resetSize(self, event):
         print event.width, event.height
@@ -214,7 +253,7 @@ if __name__ == '__main__':
     
     # if the user presses a key or the mouse, call our handlers
     canvas.root.bind('<Key-r>', canvas.reset)
-    canvas.root.bind('<Button-1>', canvas.addCircleAtClick)
+    canvas.root.bind('<Button-1>', canvas.addObjectAtClick)
     canvas.root.bind("<Configure>", canvas.resetSize)
 
     # start the draw loop
