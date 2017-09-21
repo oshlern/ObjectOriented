@@ -259,7 +259,7 @@ class Canvas(object):
 		self.addGameObject(shape)
 
 	def addObjectAtClick(self, event):
-		addType = np.random.choice([self.addCircleAtClick, self.addRectangleAtClick, self.addShapeAtClick], p=[0.5,0.15,0.35])
+		addType = np.random.choice([self.addCircleAtClick, self.addRectangleAtClick, self.addShapeAtClick], p=[0.3,0.15,0.55])
 		addType(event)
 
 	def resetSize(self, event):
