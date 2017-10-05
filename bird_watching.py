@@ -1,26 +1,64 @@
 import Tkinter # Python graphics library
 import random
+from abc import ABCMeta, abstractmethod, abstractproperty
 
-
-class SoaringBird:
+class GraphicObject(Object):
+	__metaclass__ = ABCMeta
 
 	def __init__(self, canvas):
 		self.canvas = canvas
 		# winfo gets us the current size of the canvas
 		self.x = random.uniform(0, self.canvas.winfo_width())
 		self.y = random.uniform(0, self.canvas.winfo_height())
-		self.min_x_speed = 1.0
-		self.max_x_speed = 3.0
-		self.x_speed = random.uniform(self.min_x_speed,self.max_x_speed)
-		self.size = 30.0
+		self.x_speed = random.uniform(self.min_x_speed, self.max_x_speed)
+		self.y_speed = random.uniform(self.min_y_speed, self.max_y_speed)
 		self.fill_color = '#{0:0>6x}'.format(random.randint(00,16**6))
 
-	def display(self):
-		self.canvas.create_oval(self.x, self.y, self.x + self.size*2, self.y + self.size,
-														fill=self.fill_color)
+		@abstractproperty
+		def min_x_speed():
+			return NotImplementedError
 
-	def  move(self):
+		@abstractproperty
+		def max_x_speed():
+			return NotImplementedError
+
+		@abstractproperty
+		def min_y_speed():
+			return NotImplementedError
+
+		@abstractproperty
+		def max_y_speed():
+			return NotImplementedError
+
+		@abstractproperty
+		def size():
+			return NotImplementedError
+
+		@abstractmethod
+		def display(self):
+			return NotImplementedError
+
+		def move(self):
+			self.x += self.x_speed
+
+			# if off the right side of the screen,
+			# move to just off the left side of the screen
+			if (self.x > self.canvas.winfo_width()):
+				self.x = -self.size
+
+class SoaringBird(GraphicObject):
+	min_x_speed = 1.0
+	max_x_speed = 3.0
+	min_y_speed = 0.0
+	max_y_speed = 0.0
+	size = 30.0
+
+	def display(self):
+		self.canvas.create_oval(self.x, self.y, self.x + self.size*2, self.y + self.size, fill=self.fill_color)
+
+	def move(self):
 		self.x += self.x_speed
+		self.y += self.y_speed
 
 		# if off the right side of the screen,
 		# move to just off the left side of the screen
@@ -29,6 +67,7 @@ class SoaringBird:
 
 
 class FlittingBird:
+
 	def __init__(self, canvas):
 		self.canvas = canvas
 		# winfo gets us the current size of the canvas
@@ -44,8 +83,7 @@ class FlittingBird:
 		self.fill_color = '#{0:0>6x}'.format(random.randint(00,16**6))
 
 	def display(self):
-		self.canvas.create_oval(self.x, self.y, self.x + self.size*2, self.y + self.size,
-														fill=self.fill_color)
+		self.canvas.create_oval(self.x, self.y, self.x + self.size*2, self.y + self.size, fill=self.fill_color)
 
 	def move(self):
 		self.x += self.x_speed
@@ -84,8 +122,7 @@ class FallingFeather:
 		self.fill_color = '#{0:0>6x}'.format(random.randint(00,16**6))
 
 	def display(self):
-		self.canvas.create_rectangle(self.x, self.y, self.x + self.size*2, self.y + self.size,
-																 fill=self.fill_color)
+		self.canvas.create_rectangle(self.x, self.y, self.x + self.size*2, self.y + self.size, fill=self.fill_color)
 
 	def move(self):
 		self.x += self.x_speed
