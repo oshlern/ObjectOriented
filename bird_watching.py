@@ -2,7 +2,7 @@ import Tkinter # Python graphics library
 import random
 from abc import ABCMeta, abstractmethod, abstractproperty
 
-class GraphicObject(Object):
+class GraphicObject(object):
 	__metaclass__ = ABCMeta
 
 	def __init__(self, canvas):
@@ -14,66 +14,65 @@ class GraphicObject(Object):
 		self.y_speed = random.uniform(self.min_y_speed, self.max_y_speed)
 		self.fill_color = '#{0:0>6x}'.format(random.randint(00,16**6))
 
-		@abstractproperty
-		def min_x_speed():
-			return NotImplementedError
+	@abstractproperty
+	def min_x_speed():
+		return NotImplementedError
 
-		@abstractproperty
-		def max_x_speed():
-			return NotImplementedError
+	@abstractproperty
+	def max_x_speed():
+		return NotImplementedError
 
-		@abstractproperty
-		def min_y_speed():
-			return NotImplementedError
+	@abstractproperty
+	def min_y_speed():
+		return NotImplementedError
 
-		@abstractproperty
-		def max_y_speed():
-			return NotImplementedError
+	@abstractproperty
+	def max_y_speed():
+		return NotImplementedError
 
-		@abstractproperty
-		def size():
-			return NotImplementedError
+	@abstractproperty
+	def size():
+		return NotImplementedError
 
-		@abstractmethod
-		def display(self):
-			return NotImplementedError
+	@abstractmethod
+	def display(self):
+		return NotImplementedError
 
-		def move(self):
-			self.x += self.x_speed
-			self.y += self.y_speed
-			self.extraMove()
+	def move(self):
+		self.x += self.x_speed
+		self.y += self.y_speed
+		self.extraMove()
 
-		# if off the side of the screen
-		# move to just off the other side of the screen
-		def tesselateX(self):
-			if self.x > self.canvas.winfo_width() + self.size and self.x_speed > 0:
-				self.x = -self.size
+	# if off the side of the screen
+	# move to just off the other side of the screen
+	def tesselateX(self):
+		if self.x > self.canvas.winfo_width() + self.size and self.x_speed > 0:
+			self.x = -self.size
 
-			if self.x < -self.size and self.x_speed < 0:
-				self.x = self.canvas.winfo_width() + self.size
+		if self.x < -self.size and self.x_speed < 0:
+			self.x = self.canvas.winfo_width() + self.size
 
-		# if off the side of the screen
-		# move to just off the other side of the screen
-		def tesselateY(self):
-			if self.y > self.canvas.winfo_height() + self.size and self.y_speed > 0:
-				self.y = -self.size
+	# if off the side of the screen
+	# move to just off the other side of the screen
+	def tesselateY(self):
+		if self.y > self.canvas.winfo_height() + self.size and self.y_speed > 0:
+			self.y = -self.size
 
-			if self.y < -self.size and self.y_speed < 0:
-				self.y = self.canvas.winfo_height() + self.size
+		if self.y < -self.size and self.y_speed < 0:
+			self.y = self.canvas.winfo_height() + self.size
 
-		# if off the side of the screen
-		# move to just off the other side of the screen
-		def reverseX(self):
-			if (self.x > self.canvas.winfo_width() + self.size and self.x_speed > 0) or (self.x < -self.size and self.x_speed < 0):
-				self.x_speed = -self.x_speed
+	# if off the side of the screen
+	# move to just off the other side of the screen
+	def reverseX(self):
+		if (self.x > self.canvas.winfo_width() + self.size and self.x_speed > 0) or (self.x < -self.size and self.x_speed < 0):
+			self.x_speed = -self.x_speed
 
-		def reverseY(self):
-			if (self.y > self.canvas.winfo_height() + self.size and self.y_speed > 0) or (self.y < -self.size and self.y_speed < 0):
-				self.y_speed = -self.y_speed
+	def reverseY(self):
+		if (self.y > self.canvas.winfo_height() + self.size and self.y_speed > 0) or (self.y < -self.size and self.y_speed < 0):
+			self.y_speed = -self.y_speed
 
-
-		def extraMove(self):
-			return
+	def extraMove(self):
+		return
 
 class SoaringBird(GraphicObject):
 	min_x_speed = 1.0
@@ -85,7 +84,11 @@ class SoaringBird(GraphicObject):
 	def display(self):
 		self.canvas.create_oval(self.x, self.y, self.x + self.size*2, self.y + self.size, fill=self.fill_color)
 
-class FlittingBird:
+	def extraMove(self):
+		self.tesselateX()
+		self.tesselateY()
+
+class FlittingBird(GraphicObject):
 	min_x_speed = 2.0
 	max_x_speed = 5.0
 	min_y_speed = -1.0
@@ -95,18 +98,7 @@ class FlittingBird:
 	def display(self):
 		self.canvas.create_oval(self.x, self.y, self.x + self.size*2, self.y + self.size, fill=self.fill_color)
 
-	def move(self):
-		self.x += self.x_speed
-		self.y += self.y_speed
-
-		
-		if (self.x > self.canvas.winfo_width()):
-			self.x = -self.size
-
-		# if off the top or bottom of the screen, reverse y speed
-		if (self.y < -self.size or self.y > self.canvas.winfo_height()):
-			self.y_speed = -self.y_speed
-
+	def extraMove(self):
 		# about 20% of the time, change speed a bit
 		if (random.random() > 0.8):
 			self.y_speed += random.uniform(-0.5, 0.5)
@@ -117,34 +109,26 @@ class FlittingBird:
 			self.x_speed = max(self.min_x_speed, self.x_speed)
 			self.x_speed = min(self.max_x_speed, self.x_speed)
 
+		self.tesselateX()
+		self.tesselateY()
 
-class FallingFeather:
-
-	def __init__(self, canvas):
-		self.canvas = canvas
-		# winfo gets us the current size of the canvas
-		self.x = random.uniform(0, self.canvas.winfo_width())
-		self.y = random.uniform(-self.canvas.winfo_height(), 0)
-		self.x_speed = random.uniform(-1,1)
-		self.y_speed = random.uniform(0.5, 1.5)
-		self.size = 5.0
-		self.fill_color = '#{0:0>6x}'.format(random.randint(00,16**6))
+class FallingFeather(GraphicObject):
+	min_x_speed = -1.0
+	max_x_speed = 1.0
+	min_y_speed = 0.5
+	max_y_speed = 1.5
+	size = 5.0
 
 	def display(self):
 		self.canvas.create_rectangle(self.x, self.y, self.x + self.size*2, self.y + self.size, fill=self.fill_color)
 
-	def move(self):
-		self.x += self.x_speed
-		self.y += self.y_speed
-		# if off the bottom of the screen, move to the top
-		if (self.y > self.canvas.winfo_height()):
-			self.y = -self.size
-
-		# about 5% of the time,
-		# or if going off the left or right of the screen,
-		# reverse x direction
-		if (random.random() > 0.95 or self.x < -self.size or self.x > self.canvas.winfo_width()):
+	def extraMove(self):
+		# about 5% of the time, reverse x direction
+		if (random.random() > 0.95):
 			self.x_speed = -self.x_speed
+
+		self.reverseX()
+		self.tesselateY()
 
 
 
