@@ -139,78 +139,19 @@ if __name__ == '__main__':
 		canvas.pack()
 		canvas.update() # need this for the canvas object to have the correct height set
 
-		sb1 = SoaringBird(canvas)
-		sb2 = SoaringBird(canvas)
-		sb3 = SoaringBird(canvas)
-		sb4 = SoaringBird(canvas)
-		sb5 = SoaringBird(canvas)
-
-		fb1 = FlittingBird(canvas)
-		fb2 = FlittingBird(canvas)
-		fb3 = FlittingBird(canvas)
-		fb4 = FlittingBird(canvas)
-		fb5 = FlittingBird(canvas)
-
-		ff1 = FallingFeather(canvas)
-		ff2 = FallingFeather(canvas)
-		ff3 = FallingFeather(canvas)
-		ff4 = FallingFeather(canvas)
-		ff5 = FallingFeather(canvas)
-		ff6 = FallingFeather(canvas)
-		ff7 = FallingFeather(canvas)
-		ff8 = FallingFeather(canvas)
-		ff9 = FallingFeather(canvas)
-		ff10 = FallingFeather(canvas)
-
+		soaring_birds = [SoaringBird(canvas) for i in range(5)]
+		flitting_birds = [FlittingBird(canvas) for i in range(5)]
+		falling_feathers = [FallingFeather(canvas) for i in range(10)]
+		graphic_groups = [soaring_birds, flitting_birds, falling_feathers]
+		
 		# define the draw loop
 		def draw():
 			canvas.delete(Tkinter.ALL)
 
-			sb1.move()
-			sb2.move()
-			sb3.move()
-			sb4.move()
-			sb5.move()
-
-			fb1.move()
-			fb2.move()
-			fb3.move()
-			fb4.move()
-			fb5.move()
-
-			ff1.move()
-			ff2.move()
-			ff3.move()
-			ff4.move()
-			ff5.move()
-			ff6.move()
-			ff7.move()
-			ff8.move()
-			ff9.move()
-			ff10.move()
-
-			sb1.display()
-			sb2.display()
-			sb3.display()
-			sb4.display()
-			sb5.display()
-
-			fb1.display()
-			fb2.display()
-			fb3.display()
-			fb4.display()
-			fb5.display()
-
-			ff1.display()
-			ff2.display()
-			ff3.display()
-			ff4.display()
-			ff5.display()
-			ff6.display()
-			ff7.display()
-			ff8.display()
-			ff9.display()
-			ff10.display()
+			for group in graphic_groups:
+				for graphic in group:
+					graphic.move()
+					graphic.display()
 
 			delay = 33 # milliseconds, so about 30 frames per second
 			canvas.after(delay, draw) # call this draw function again after the delay
