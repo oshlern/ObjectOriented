@@ -40,11 +40,40 @@ class GraphicObject(Object):
 
 		def move(self):
 			self.x += self.x_speed
+			self.y += self.y_speed
+			self.extraMove()
 
-			# if off the right side of the screen,
-			# move to just off the left side of the screen
-			if (self.x > self.canvas.winfo_width()):
+		# if off the side of the screen
+		# move to just off the other side of the screen
+		def tesselateX(self):
+			if self.x > self.canvas.winfo_width() + self.size and self.x_speed > 0:
 				self.x = -self.size
+
+			if self.x < -self.size and self.x_speed < 0:
+				self.x = self.canvas.winfo_width() + self.size
+
+		# if off the side of the screen
+		# move to just off the other side of the screen
+		def tesselateY(self):
+			if self.y > self.canvas.winfo_height() + self.size and self.y_speed > 0:
+				self.y = -self.size
+
+			if self.y < -self.size and self.y_speed < 0:
+				self.y = self.canvas.winfo_height() + self.size
+
+		# if off the side of the screen
+		# move to just off the other side of the screen
+		def reverseX(self):
+			if (self.x > self.canvas.winfo_width() + self.size and self.x_speed > 0) or (self.x < -self.size and self.x_speed < 0):
+				self.x_speed = -self.x_speed
+
+		def reverseY(self):
+			if (self.y > self.canvas.winfo_height() + self.size and self.y_speed > 0) or (self.y < -self.size and self.y_speed < 0):
+				self.y_speed = -self.y_speed
+
+
+		def extraMove(self):
+			return
 
 class SoaringBird(GraphicObject):
 	min_x_speed = 1.0
@@ -56,31 +85,12 @@ class SoaringBird(GraphicObject):
 	def display(self):
 		self.canvas.create_oval(self.x, self.y, self.x + self.size*2, self.y + self.size, fill=self.fill_color)
 
-	def move(self):
-		self.x += self.x_speed
-		self.y += self.y_speed
-
-		# if off the right side of the screen,
-		# move to just off the left side of the screen
-		if (self.x > self.canvas.winfo_width()):
-			self.x = -self.size
-
-
 class FlittingBird:
-
-	def __init__(self, canvas):
-		self.canvas = canvas
-		# winfo gets us the current size of the canvas
-		self.x = random.uniform(0, self.canvas.winfo_width())
-		self.y = random.uniform(0, self.canvas.winfo_height())
-		self.min_x_speed = 2.0
-		self.max_x_speed = 5.0
-		self.x_speed = random.uniform(self.min_x_speed,self.max_x_speed)
-		self.min_y_speed = -1.0
-		self.max_y_speed = 1.0
-		self.y_speed = random.uniform(self.min_y_speed,self.max_y_speed)
-		self.size = 15.0
-		self.fill_color = '#{0:0>6x}'.format(random.randint(00,16**6))
+	min_x_speed = 2.0
+	max_x_speed = 5.0
+	min_y_speed = -1.0
+	max_y_speed = 1.0
+	size = 15.0
 
 	def display(self):
 		self.canvas.create_oval(self.x, self.y, self.x + self.size*2, self.y + self.size, fill=self.fill_color)
@@ -89,8 +99,7 @@ class FlittingBird:
 		self.x += self.x_speed
 		self.y += self.y_speed
 
-		# if off the right side of the screen
-		# move to just off the left side of the screen
+		
 		if (self.x > self.canvas.winfo_width()):
 			self.x = -self.size
 
