@@ -5,6 +5,12 @@ import random, time
 import numpy as np
 from abc import ABCMeta, abstractmethod, abstractproperty
 
+class SampleClass(object):
+	def sampleFunction(self):
+		return
+
+function = type(SampleClass.sampleFunction)
+
 def generatePoint(angle, distance):
 	return distance*np.cos(angle), distance*np.sin(angle)
 
@@ -163,12 +169,14 @@ class Canvas(object):
 
 	def reset(self, event=None):
 		'''Clear all game objects.'''
+		self.background = []
+		self.foreground = []
 		self.game_objects = []
 
-	def draw(self, other=None):
+	def update(self, callback=None, callback_args=None):
 		'''Clear the canvas, have all game objects update and redraw, then set up the next draw.'''
 		self.canvas.delete(Tkinter.ALL)
-
+		self.game_objects = self.background + self.foreground
 		for i in range(len(self.game_objects)):
 			game_object = self.game_objects[i]
 			if self.collide:
@@ -181,12 +189,48 @@ class Canvas(object):
 				self.checkTesselate(game_object)
 
 			game_object.update()
+
+		if type(callback) == function:
+			if callback_args != None:
+				if type(callback_args) == list:
+					callback(*callback_args)
+				else:
+					callback(callback_args)
+			else:
+				callback()
+
+	def drawBackground(self, callback=None, callback_args=None):
+		for game_object in self.background:
 			game_object.draw(self.canvas)
 
-		self.canvas.after(self.delay, self.draw, self.canvas) # call this draw function with the canvas argument again after the delay
+		if type(callback) == function:
+			if callback_args != None:
+				if type(callback_args) == list:
+					callback(*callback_args)
+				else:
+					callback(callback_args)
+			else:
+				callback()
+
+	def drawForeground(self, callback=None, callback_args=None):
+		for game_object in self.foreground:
+			game_object.draw(self.canvas)
+
+		if type(callback) == function:
+			if callback_args != None:
+				if type(callback_args) == list:
+					callback(*callback_args)
+				else:
+					callback(callback_args)
+			else:
+				callback()
+
+	def iterate(self, _=None):
+		self.update(self.drawBackground, [self.drawForeground])
+		self.canvas.after(self.delay, self.iterate, self.canvas) # call this function with the canvas argument again after the delay
 
 	def run(self):
-		self.draw()
+		self.iterate()
 		self.root.mainloop() # keep the window open
 
 	def checkBounce(self, game_object):
@@ -239,24 +283,27 @@ class Canvas(object):
 			game_object_1.spin, game_object_2.spin = np.sqrt(total_spin*spin_distribution), np.sqrt(total_spin*(1-spin_distribution))
 
 
-	def addGameObject(self, game_object):
-		if isinstance(game_object, GameObject):
-			self.game_objects.append(game_object)
+	def addGameObject(self, game_object, ground):
+		assert isinstance(game_object, GameObject)
+		if ground == 'background':
+			self.background.append(game_object)
+		if ground == 'foreground':
+			self.foreground.append(game_object)
 
 	def addCircleAtClick(self, event):
 		'''Add a new circle where the user clicked.'''
 		circle = Circle(event.x, event.y)
-		self.addGameObject(circle)
+		self.addGameObject(circle, 'background')
 
 	def addRectangleAtClick(self, event):
 		'''Add a new rectangle where the user clicked.'''
 		rectangle = Rectangle(event.x, event.y)
-		self.addGameObject(rectangle)
+		self.addGameObject(rectangle, 'foreground')
 
 	def addShapeAtClick(self, event):
 		'''Add a new shape where the user clicked.'''
 		shape = RandomShape(event.x, event.y)
-		self.addGameObject(shape)
+		self.addGameObject(shape, 'foreground')
 
 	def addObjectAtClick(self, event):
 		addType = np.random.choice([self.addCircleAtClick, self.addRectangleAtClick, self.addShapeAtClick], p=[0.3,0.15,0.55])
@@ -279,7 +326,7 @@ if __name__ == '__main__':
 
 	for i in range(3):
 		x, y = random.randint(Circle.max_size, canvas.width-Circle.max_size), random.randint(Circle.max_size, canvas.height-Circle.max_size)
-		canvas.addGameObject(Circle(x, y))
+		canvas.addGameObject(Circle(x, y), 'background')
 	
 	# if the user presses a key or the mouse, call our handlers
 	canvas.root.bind('<Key-r>', canvas.reset)
