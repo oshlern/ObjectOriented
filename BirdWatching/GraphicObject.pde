@@ -41,6 +41,8 @@ abstract class GraphicObject {
     this.y += this.ySpeed;
   }
   
+  // extraMove is a hook function with no arguments that is called at the beginning of move.
+  // It is optionally overwritten in child classes of GraphicObject
   void extraMove() {}
 
   // if off the side of the screen, reverse speed

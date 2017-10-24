@@ -199,6 +199,9 @@ class Canvas(object):
 			else:
 				callback()
 
+	# drawBackground is called as a callback function.
+	# It takes in an optional further callback and optional arguments to pass that next callback function
+	# Currently, drawBackground is called at the end of update
 	def drawBackground(self, callback=None, callback_args=None):
 		for game_object in self.background:
 			game_object.draw(self.canvas)
@@ -212,6 +215,9 @@ class Canvas(object):
 			else:
 				callback()
 
+	# drawForeground is called as a callback function.
+	# It takes in an optional further callback and optional arguments to pass that next callback function
+	# Currently, drawForeground is called at the end of drawBackround
 	def drawForeground(self, callback=None, callback_args=None):
 		for game_object in self.foreground:
 			game_object.draw(self.canvas)
@@ -225,9 +231,13 @@ class Canvas(object):
 			else:
 				callback()
 
+	# iterate is called as a callback function.
+	# It takes in an optional argument that is never used (currently self.canvas during callbacks)
+	# It is called by self.canvas every self.delay milliseconds
 	def iterate(self, _=None):
 		self.update(self.drawBackground, [self.drawForeground])
 		self.canvas.after(self.delay, self.iterate, self.canvas) # call this function with the canvas argument again after the delay
+
 
 	def run(self):
 		self.iterate()
