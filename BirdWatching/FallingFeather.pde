@@ -3,6 +3,7 @@ class FallingFeather extends GraphicObject{
 
   public FallingFeather() {
     super(-1.0, 1.0, 0.5, 1.5, 5.0);
+    this.y = random(-height, 0);
   }
 
   void display() {
