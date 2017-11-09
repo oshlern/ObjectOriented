@@ -238,7 +238,6 @@ class Canvas(object):
 		self.update(self.drawBackground, [self.drawForeground])
 		self.canvas.after(self.delay, self.iterate, self.canvas) # call this function with the canvas argument again after the delay
 
-
 	def run(self):
 		self.iterate()
 		self.root.mainloop() # keep the window open
