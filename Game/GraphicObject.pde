@@ -38,25 +38,25 @@ abstract class GraphicObject {
     this.size = size;
   }
   // Trying to make constructors that fill in some parameters, but the main constructor doesn't take in colors because it thinks they're ints
-  //GraphicObject(float minXSpeed, float maxXSpeed, float minYSpeed,
-  //                float maxYSpeed, float minThetaSpeed, float maxThetaSpeed,
-  //                float size, color initColor
-  //              ) {
-  //  GraphicObject(minXSpeed, maxXSpeed, minYSpeed,
-  //                  maxYSpeed, minThetaSpeed, maxThetaSpeed, size,
-  //                  initColor, initColor
-  //  );
-  //}
-  //GraphicObject(float minXSpeed, float maxXSpeed, float minYSpeed,
-  //                float maxYSpeed, float minThetaSpeed, float maxThetaSpeed,
-  //                float size
-  //              ) {
-  //                color temp_color = (random(0,255), random(0,255), random(0,255));
-  //                GraphicObject(minXSpeed, maxXSpeed, minYSpeed,
-  //                  maxYSpeed, minThetaSpeed, maxThetaSpeed, size,
-  //                  temp_color, temp_color
-  //                 );
-  //      };
+  GraphicObject(float minXSpeed, float maxXSpeed, float minYSpeed,
+                  float maxYSpeed, float minThetaSpeed, float maxThetaSpeed,
+                  float size, color initColor
+                ) {
+    GraphicObject(minXSpeed, maxXSpeed, minYSpeed,
+                    maxYSpeed, minThetaSpeed, maxThetaSpeed, size,
+                    initColor, initColor
+    );
+  }
+  GraphicObject(float minXSpeed, float maxXSpeed, float minYSpeed,
+                  float maxYSpeed, float minThetaSpeed, float maxThetaSpeed,
+                  float size
+                ) {
+                  color temp_color = color(random(0,255), random(0,255), random(0,255));
+                  GraphicObject(minXSpeed, maxXSpeed, minYSpeed,
+                    maxYSpeed, minThetaSpeed, maxThetaSpeed, size,
+                    temp_color, temp_color
+                   );
+        };
   abstract void display();
 
   void move() {
@@ -65,7 +65,7 @@ abstract class GraphicObject {
     this.xSpeed = min(this.maxXSpeed, max(this.minXSpeed, this.xSpeed));
     this.x += this.xSpeed;
     this.y += this.ySpeed;
-    this.fillColor
+    this.fillColor 
   }
   
   // extraMove is a hook function with no arguments that is called at the beginning of move.
