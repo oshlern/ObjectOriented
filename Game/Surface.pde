@@ -1,6 +1,18 @@
 abstract class Surface {
-  public GraphicObject[] objects;
+  public ArrayList<GraphicObject> objects;
   
+  Surface() {
+    this.objects = new ArrayList<GraphicObject>();
+  }
+
+  void insertObject(GraphicObject object) {
+    this.objects.add(object);
+  }
+
+  void insertObjects(ArrayList<GraphicObject> objects) {
+    this.objects.addAll(objects);
+  }
+
   void moveObjects() {
     for (GraphicObject object : objects) {
       object.pos.addVel(object.vel);

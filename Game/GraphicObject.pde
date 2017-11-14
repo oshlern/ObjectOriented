@@ -41,33 +41,4 @@ abstract class GraphicObject {
   // extraMove is a hook function with no arguments that is called at the beginning of move.
   // It is optionally overwritten in child classes of GraphicObject
   void extraMove() {}
-
-  // if off the side of the screen, reverse speed
-  void reverseX() {
-    if ((this.x < -this.size  && this.xSpeed < 0) || (this.x > width && this.xSpeed > 0)) {
-      this.xSpeed = -this.xSpeed;
-    }
-  }
-  void reverseY() {
-    if ((this.y < -this.size  && this.ySpeed < 0) || (this.y > height && this.ySpeed > 0 )) {
-      this.ySpeed = -this.ySpeed;
-    }
-  }
-  
-  // if off the side of the screen,
-  // move to just off the other side of the screen
-  void tesselateX() {
-    if (this.x > width + this.size && this.xSpeed > 0) {
-      this.x = -this.size;
-    } else if (this.x < -this.size && this.xSpeed < 0) {
-      this.x = width + this.size;
-    }
-  }
-   void tesselateY() {
-    if (this.y > height + this.size && this.ySpeed > 0) {
-      this.y = -this.size;
-    } else if (this.y < -this.size && this.ySpeed < 0) {
-      this.y = height + this.size;
-    }
-  }
 }
