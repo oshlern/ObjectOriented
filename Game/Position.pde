@@ -1,4 +1,5 @@
-class Position {
+// Doubles as velocity class
+class Position { 
   public float x;
   public float y;
   public float theta;
@@ -15,7 +16,7 @@ class Position {
     this.theta = 0.0;
   }
   
-  void addVelocity(Position velocity) {
+  void addVel(Position velocity) {
     this.x += velocity.x;
     this.y += velocity.y;
     this.theta += velocity.theta;
