@@ -3,11 +3,11 @@ Surface display;
 /* Add a new shape at x, y. */
 void addShape(float x, float y) {
     if (random(0, 1) < 2) {
-        gameObjects.add(new Line(x, y));
+        display.insertObject(new Line(x, y));
     } else if (random(0, 1) < 0.5) {
-        gameObjects.add(new Circle(x, y));
+        display.insertObject(new Circle(x, y));
     } else {
-        gameObjects.add(new Square(x, y));
+        display.insertObject(new Square(x, y));
     }
 }
 
@@ -20,7 +20,7 @@ void addShape(float x, float y) {
   program first starts running.
 */
 void setup() {
-  size(200, 200);
+  size(500, 500);
   display = new Torus();
   for (int i=0;i<15;i++){
      display.insertObject(new Circle());
@@ -46,5 +46,5 @@ void keyPressed() {
 
 /* Processing will call this when the mouse is clicked */
 void mouseClicked() {
-    display.insertObject(CirclemouseX, mouseY);
+    addShape(mouseX, mouseY);
 }

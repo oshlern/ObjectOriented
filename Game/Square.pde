@@ -1,5 +1,14 @@
 public class Square extends GraphicObject {
-    /* Draw self on the canvas */
+
+    Square(float x, float y) {
+      super(x, y);
+    }
+
+    Square() {
+      super();
+    }
+
+    /* Draw self on the canvas.  */
     public void display() {
         fill(this.fillColor);
         stroke(this.fillColor);

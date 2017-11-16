@@ -1,10 +1,19 @@
-public class Line extends RegularShape {
+public class Line extends GraphicObject {
+
+    Line(float x, float y) {
+      super(x, y);
+    }
+
+    Line() {
+      super();
+    }
+
     /* Draw self on the canvas. */
-    public void display() {
-        float rotated_x = this.size*cos(this.angle);
-        float rotated_y = this.size*sin(this.angle);
+     public void display() {
+        float rotated_x = this.size*cos(this.pos.theta);
+        float rotated_y = this.size*sin(this.pos.theta);
         fill(this.fillColor);
         stroke(this.fillColor);
-        line(this.x - rotated_x/2, this.y - rotated_y/2, this.x + rotated_x/2, this.y + rotated_y/2);
+        line(this.pos.x - rotated_x/2, this.pos.y - rotated_y/2, this.pos.x + rotated_x/2, this.pos.y + rotated_y/2);
     }
 }
