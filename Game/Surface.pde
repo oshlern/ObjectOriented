@@ -1,43 +1,45 @@
 abstract class Surface {
-  protected ArrayList<GraphicObject> objects;
 
-  Surface() {
-    this.reset();
-  }
+    protected ArrayList<GraphicObject> objects;
 
-  void insertObject(GraphicObject object) {
-    this.objects.add(object);
-  }
-
-  void insertObjects(ArrayList<GraphicObject> objects) {
-    this.objects.addAll(objects);
-  }
-
-  void reset() {
-    this.objects = new ArrayList<GraphicObject>();
-  }
-
-  void moveObjects() {
-    for (GraphicObject object : objects) {
-      object.pos.addVel(object.vel);
-      object.extraMove();
-      Position[] wrapped_pos_and_vel = this.wrapAround(object.pos, object.vel);
-      object.pos = wrapped_pos_and_vel[0];
-      object.vel = wrapped_pos_and_vel[1];
+    Surface() {
+        this.reset();
     }
-  }
 
-  void displayObjects() {
-    for (GraphicObject object : objects) {
-      object.display();
+    void insertObject(GraphicObject object) {
+        this.objects.add(object);
     }
-  }
 
-  abstract Position[] wrapAround(Position pos, Position vel);
+    void insertObjects(ArrayList<GraphicObject> objects) {
+        this.objects.addAll(objects);
+    }
 
-  void iterate() {
-    moveObjects();
-    displayObjects();
-  }
+    void reset() {
+        this.objects = new ArrayList<GraphicObject>();
+    }
+
+    void moveObjects() {
+        for (GraphicObject object : objects) {
+            object.pos.addVel(object.vel);
+            object.extraMove();
+            Position[] wrapped_pos_and_vel = this.wrapAround(object.pos, object.vel);
+            object.pos = wrapped_pos_and_vel[0];
+            object.vel = wrapped_pos_and_vel[1];
+        }
+    }
+
+    void displayObjects() {
+        for (GraphicObject object : objects) {
+            object.display();
+        }
+    }
+
+    abstract Position[] wrapAround(Position pos, Position vel);
+
+    void iterate() {
+        moveObjects();
+        displayObjects();
+    }
+
 }
 // add acceleration?

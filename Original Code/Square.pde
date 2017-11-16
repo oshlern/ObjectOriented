@@ -10,9 +10,8 @@ public class Square extends GraphicObject {
 
     /* Draw self on the canvas.  */
     public void display() {
-        fill(this.FILL_COLOR);
-        stroke(this.FILL_COLOR);
-        rect(this.pos.x, this.pos.y, this.SIZE, this.SIZE);
+        fill(this.fillColor);
+        stroke(this.fillColor);
+        rect(this.pos.x, this.pos.y, this.size, this.size);
     }
-
 }
