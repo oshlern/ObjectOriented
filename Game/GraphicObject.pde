@@ -6,10 +6,10 @@ abstract class GraphicObject {
     protected final color FILL_COLOR;
     //add maxvel
 
-    GraphicObject(Position pos, Position vel, float size, color fillColor) {
+    GraphicObject(Position pos, Position vel, float size, color fill_color) {
         this.pos = pos;
         this.vel = vel;
-        this.FILL_COLOR = fillColor;
+        this.FILL_COLOR = fill_color;
         this.SIZE = size;
     }
 
@@ -41,10 +41,10 @@ abstract class GraphicObject {
         this.SIZE = random(5., 25.);
     }
 
-    abstract void display();
+    abstract public void display();
 
     // extraMove is a hook function with no arguments that is called at the beginning of move.
     // It is optionally overwritten in child classes of GraphicObject
-    void extraMove() {}
+    protected void extraMove() {}
 
 }

@@ -6,19 +6,19 @@ abstract class Surface {
         this.reset();
     }
 
-    void insertObject(GraphicObject object) {
+    public void insertObject(GraphicObject object) {
         this.objects.add(object);
     }
 
-    void insertObjects(ArrayList<GraphicObject> objects) {
+    public void insertObjects(ArrayList<GraphicObject> objects) {
         this.objects.addAll(objects);
     }
 
-    void reset() {
+    public void reset() {
         this.objects = new ArrayList<GraphicObject>();
     }
 
-    void moveObjects() {
+    protected void moveObjects() {
         for (GraphicObject object : objects) {
             object.pos.addVel(object.vel);
             object.extraMove();
@@ -28,15 +28,15 @@ abstract class Surface {
         }
     }
 
-    void displayObjects() {
+    protected void displayObjects() {
         for (GraphicObject object : objects) {
             object.display();
         }
     }
 
-    abstract Position[] wrapAround(Position pos, Position vel);
+    abstract protected Position[] wrapAround(Position pos, Position vel);
 
-    void iterate() {
+    public void iterate() {
         moveObjects();
         displayObjects();
     }

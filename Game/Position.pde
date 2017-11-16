@@ -17,7 +17,7 @@ class Position {
         this.theta = 0.0;
     }
     
-    void addVel(Position vel) {
+    public void addVel(Position vel) {
         this.x += vel.x;
         this.y += vel.y;
         this.theta += vel.theta;

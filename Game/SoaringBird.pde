@@ -5,7 +5,7 @@ class SoaringBird extends GraphicObject {
               new Position(random(3.0, 5.0), 0.0, 0.0), 30.0);
     }
 
-    void display() {
+    public void display() {
         fill(this.FILL_COLOR);
         ellipse(this.pos.x, this.pos.y, this.SIZE*2, this.SIZE);
     }

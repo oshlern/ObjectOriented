@@ -1,6 +1,6 @@
 class RP2 extends Surface {
 
-    Position[] wrapAround(Position pos, Position vel) {
+    protected Position[] wrapAround(Position pos, Position vel) {
         Position[] pos_vel = new Position[]{pos, vel};
 
         if (pos.x > width) {
