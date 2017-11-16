@@ -1,4 +1,4 @@
-ArrayList<RegularShape> gameObjects = new ArrayList<RegularShape>();
+Surface display;
 
 /* Add a new shape at x, y. */
 void addShape(float x, float y) {
@@ -11,10 +11,6 @@ void addShape(float x, float y) {
     }
 }
 
-/* Clear all game objects. */
-void reset() {
-    gameObjects = new ArrayList<RegularShape>();
-}
 /*
   Collisions of lines
   Conservation of energy: mgh + 1/2mv^2 + 1/2mw^2
@@ -25,8 +21,9 @@ void reset() {
 */
 void setup() {
   size(200, 200);
+  display = new Torus();
   for (int i=0;i<15;i++){
-        addShape(random(0,width), random(0, height));
+     display.insertObject(new Circle());
   }
 }
 
@@ -37,21 +34,17 @@ void setup() {
 */
 void draw() {
     //background(255, 255, 255);
-
-    for (RegularShape gameObject : gameObjects) {
-        gameObject.update();
-        gameObject.display();
-    }
+    display.iterate();
 }
 
 /* Processing will call this when a key is pressed. */
 void keyPressed() {
     if (key == 'r') {
-        reset();
+        display.reset();
     }
 }
 
 /* Processing will call this when the mouse is clicked */
 void mouseClicked() {
-    addShape(mouseX, mouseY);
+    display.insertObject(CirclemouseX, mouseY);
 }

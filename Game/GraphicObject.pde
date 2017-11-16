@@ -1,40 +1,43 @@
 abstract class GraphicObject {
   public Position pos;
   public Position vel;
-  public final Position min_vel;
-  public final Position max_vel;
   public final float size;
   public final color fillColor;
-  
-  GraphicObject(Position min_vel, Position max_vel, float size, color initColor, color finColor
-                ) {
-    this.min_vel = min_vel;
-    this.max_vel = max_vel;
-    this.pos = Position(random(0, width), random(0, height), random(0, 2*PI));
-    this.vel = Position(random(this.min_vel.x, this.max_vel.x), random(this.min_vel.y, this.max_vel.y), random(this.min_vel.theta, this.max_vel.theta)); 
-    this.fillColor = this.initColor;
+
+  GraphicObject(Position pos, Position vel, float size, color fillColor) {
+    this.pos = pos;
+    this.vel = vel;
+    this.fillColor = fillColor;
     this.size = size;
   }
-  // Trying to make constructors that fill in some parameters, but the main constructor doesn't take in colors because it thinks they're ints
-  //GraphicObject(float minXSpeed, float maxXSpeed, float minYSpeed,
-  //                float maxYSpeed, float minThetaSpeed, float maxThetaSpeed,
-  //                float size, color initColor
-  //              ) {
-  //  GraphicObject(minXSpeed, maxXSpeed, minYSpeed,
-  //                  maxYSpeed, minThetaSpeed, maxThetaSpeed, size,
-  //                  initColor, initColor
-  //  );
-  //}
-  //GraphicObject(float minXSpeed, float maxXSpeed, float minYSpeed,
-  //                float maxYSpeed, float minThetaSpeed, float maxThetaSpeed,
-  //                float size
-  //              ) {
-  //                color temp_color = color(random(0,255), random(0,255), random(0,255));
-  //                GraphicObject(minXSpeed, maxXSpeed, minYSpeed,
-  //                  maxYSpeed, minThetaSpeed, maxThetaSpeed, size,
-  //                  temp_color, temp_color
-  //                 );
-  //};
+
+  GraphicObject(Position pos, Position vel, float size) {
+    this.pos = pos;
+    this.vel = vel;
+    this.fillColor = color(random(0, 255), random(0, 255), random(0, 255));
+    this.size = size;
+  }
+
+  GraphicObject(Position pos) {
+     this.pos = pos;
+     this.vel = new Position(random(-10., 10.), random(-10., 10.), random(-2.*PI, 2.*PI));
+     this.fillColor = color(random(0, 255), random(0, 255), random(0, 255));
+     this.size = random(5., 25.);
+  }
+
+  GraphicObject(float x, float y) {
+     this.pos = new Position(x, y, random(0, 2*PI));
+     this.vel = new Position(random(-10., 10.), random(-10., 10.), random(-2.*PI, 2.*PI));
+     this.fillColor = color(random(0, 255), random(0, 255), random(0, 255));
+     this.size = random(5., 25.);
+  }
+
+  GraphicObject() {
+     this.pos = new Position(random(0., width), random(0., height), random(0, 2*PI));
+     this.vel = new Position(random(-10., 10.), random(-10., 10.), random(-2.*PI, 2.*PI));
+     this.fillColor = color(random(0, 255), random(0, 255), random(0, 255));
+     this.size = random(5., 25.);
+  }
 
   abstract void display();
 

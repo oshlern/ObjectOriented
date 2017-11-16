@@ -1,8 +1,8 @@
 abstract class Surface {
   public ArrayList<GraphicObject> objects;
-  
+
   Surface() {
-    this.objects = new ArrayList<GraphicObject>();
+    this.reset();
   }
 
   void insertObject(GraphicObject object) {
@@ -11,6 +11,10 @@ abstract class Surface {
 
   void insertObjects(ArrayList<GraphicObject> objects) {
     this.objects.addAll(objects);
+  }
+
+  void reset() {
+    this.objects = new ArrayList<GraphicObject>();
   }
 
   void moveObjects() {
@@ -28,8 +32,12 @@ abstract class Surface {
       object.display();
     }
   }
-  
-  abstract Position[] wrapAround(Position pos, Position vel);
-}
 
+  abstract Position[] wrapAround(Position pos, Position vel);
+
+  void iterate() {
+    moveObjects();
+    displayObjects();
+  }
+}
 // add acceleration?
