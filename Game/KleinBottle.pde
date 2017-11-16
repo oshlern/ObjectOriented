@@ -1,4 +1,5 @@
 class KleinBottle extends Surface {
+
   Position[] wrapAround(Position pos, Position vel) {
     Position[] pos_vel = new Position[]{pos, vel} ;
     if (pos.x > width) {

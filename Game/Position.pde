@@ -16,9 +16,9 @@ class Position {
     this.theta = 0.0;
   }
   
-  void addVel(Position velocity) {
-    this.x += velocity.x;
-    this.y += velocity.y;
-    this.theta += velocity.theta;
+  void addVel(Position vel) {
+    this.x += vel.x;
+    this.y += vel.y;
+    this.theta += vel.theta;
   }
 }

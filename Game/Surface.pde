@@ -1,5 +1,5 @@
 abstract class Surface {
-  public ArrayList<GraphicObject> objects;
+  protected ArrayList<GraphicObject> objects;
 
   Surface() {
     this.reset();
