@@ -21,7 +21,7 @@ void addShape(float x, float y) {
 */
 void setup() {
   size(500, 500);
-  display = new Torus();
+  display = new Sphere();
   for (int i=0;i<15;i++){
      display.insertObject(new Circle());
   }
