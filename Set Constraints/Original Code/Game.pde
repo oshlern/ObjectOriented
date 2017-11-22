@@ -2,7 +2,7 @@ Surface display;
 
 /* Add a new shape at x, y. */
 void addShape(float x, float y) {
-    if (random(0, 1) < 0.3) {
+    if (random(0, 1) < 2) {
         display.insertObject(new Line(x, y));
     } else if (random(0, 1) < 0.5) {
         display.insertObject(new Circle(x, y));
@@ -28,12 +28,12 @@ void setup() {
 }
 
 /* 
-  Redraw the background, have all game objects update
-  and redraw. Processing will automatically call this
-  method at a set refresh rate.
+   Redraw the background, have all game objects update
+   and redraw. Processing will automatically call this
+   method at a set refresh rate.
 */
 void draw() {
-    background(255, 255, 255);
+    //background(255, 255, 255);
     display.iterate();
 }
 

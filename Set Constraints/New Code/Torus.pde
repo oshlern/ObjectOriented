@@ -6,13 +6,14 @@ class Torus extends Surface {
         if (pos.x > width) {
             pos_vel[0].x = 0;
         } else if (pos.x < 0) {
-            pos_vel[0].x = width;
+             pos_vel[0].x = width;
         }
 
         if (pos.y > height) {
-            pos_vel[0].y = 0;
+             pos_vel[0].y = 0;
+            //pos.x = pos.x % width;
         } else if (pos.y < 0) {
-            pos_vel[0].y = height;
+             pos_vel[0].y = height;
         }
 
         return pos_vel;
