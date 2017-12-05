@@ -1,8 +1,12 @@
 class Polygon{
-  Vertex[] vertices;
+    Vertex[] vertices;
   
-  Polygon(Vertex[] vertices) {
-    this.vertices = vertices;
-  }
+    Polygon(Vertex[] vertices) {
+        this.vertices = vertices;
+    }
+    
+    
+  
+  
 }
   
