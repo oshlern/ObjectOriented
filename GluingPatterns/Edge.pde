@@ -26,29 +26,32 @@ class Edge extends LineSegment{
     }
 
     public float distanceTo(Vertex v) {
+        float normal_distance = this.normal.Dot(v) - this.normal_component;
         float tangent_distance = 0;
-        tangent_component = this.Dot(v);
+        float tangent_component = this.Dot(v);
         if (tangent_component > bigger_tangent_component) {
             tangent_distance = tangent_component - bigger_tangent_component;
         } else if (tangent_component < smaller_tangent_component) {
             tangent_distance = smaller_tangent_component - tangent_component;
         }
-        return sqrt((this.normal.Dot(v) - this.normal_component)^2 + tangent_distance^2);
+        return sqrt(normal_distance*normal_distance + tangent_distance*tangent_distance);
     }
 
     public float intersection(LineSegment v) {
         float crossed = v.Cross(this);
-        if (crossed == 0.) {
-            return null;
+        float does_not_intersect = 0.0f;
+        if (crossed == 0.0f) {
+            return does_not_intersect;
         }
         Vector delta_v = new Vector(this.v1, v.v1);
         float this_t = delta_v.Cross(v)/crossed;
         if (this_t < 0. || this_t > 1) {
-            return null;
+            return does_not_intersect;
         }
         float v_t = -delta_v.Cross(this)/crossed;
         if (v_t < 0. || v_t > 1) {
-            return null;
+            return does_not_intersect;
         }
-        return t;
+        return this_t;
+    }
 }
