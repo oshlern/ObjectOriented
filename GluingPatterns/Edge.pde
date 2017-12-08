@@ -1,6 +1,5 @@
 class Edge extends LineSegment{
 
-    //private final Vector tangent;
     private final Vector normal;
     private final float normal_component;
     private final float smaller_tangent_component;
@@ -45,13 +44,14 @@ class Edge extends LineSegment{
         }
         Vector delta_v = new Vector(this.v1, v.v1);
         float this_t = delta_v.Cross(v)/crossed;
-        if (this_t < 0. || this_t > 1) {
+        if (this_t < 0. || this_t > 1.) {
             return does_not_intersect;
         }
         float v_t = -delta_v.Cross(this)/crossed;
-        if (v_t < 0. || v_t > 1) {
+        if (v_t < 0. || v_t > 1.) {
             return does_not_intersect;
         }
         return this_t;
     }
+
 }

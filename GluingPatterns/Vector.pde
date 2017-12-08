@@ -1,23 +1,25 @@
-class Vector extends Vertex {
+class Vector {
     public final float magnitude;
 
     Vector(float x, float y) {
-        super(x,y);
+        this.x = x;
+        this.y = y;
     }
 
     Vector(Vertex v1, Vertex v2) {
-        super(v2.x - v1.x, v2.y - v1.y);
+        this.x = v2.x - v1.x;
+        this.y = v2.y - v1.y;
     }
 
-    public float Dot(Vertex v) {
+    public float Dot(Vector v) {
         return this.x*v.x + this.y*v.y;
     }
 
-    public float Cross(Vertex v) {
-        return this.x*v.y-this.y*v.x;
+    public float Cross(Vector v) {
+        return this.x*v.y - this.y*v.x;
     }
     
-    public float absCross(Vertex v) {
+    public float absCross(Vector v) {
       return abs(this.Cross(v));
     }
 

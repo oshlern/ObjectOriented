@@ -8,4 +8,11 @@ class LineSegment extends Vector {
         this.v1 = v1;
         this.v2 = v2;
     }
+
+    public Vertex atTime(float t) {
+        if (t < 0. || t > 1.) {
+            return null;
+        }
+        return new Vertex(v1.x + this.x*t, v1.y + this.y*t);
+    }
 }
