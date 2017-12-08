@@ -4,7 +4,7 @@ abstract class GraphicObject {
     public Position vel;
     public final float SIZE;
     protected final color FILL_COLOR;
-    //add maxvel
+    public Polygon polygon; // The polygon which the object is in.
 
     GraphicObject(Position pos, Position vel, float size, color fill_color) {
         this.pos = pos;

@@ -1,30 +1,36 @@
-class Vector {
+class Vector extends Vertex {
+
     public final float magnitude;
 
+    Vector(Vertex v) {
+        super(v.x, v.y);
+    }
+
     Vector(float x, float y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
     }
 
     Vector(Vertex v1, Vertex v2) {
-        this.x = v2.x - v1.x;
-        this.y = v2.y - v1.y;
+        super(v2.x - v1.x, v2.y - v1.y);
     }
 
-    public float Dot(Vector v) {
+    public float Dot(Vertex v) {
         return this.x*v.x + this.y*v.y;
     }
 
-    public float Cross(Vector v) {
+    public float Cross(Vertex v) {
         return this.x*v.y - this.y*v.x;
     }
     
-    public float absCross(Vector v) {
+    public float absCross(Vertex v) {
       return abs(this.Cross(v));
     }
 
+    // Not initialized in constructor because not always needed.
     public float magnitude() {
-        this.magnitude = x*x + y*y;
+        if (this.magnitude == 0.0f) {
+          this.magnitude = this.x*this.x + this.y*this.y;
+        }
         return this.magnitude;
     }
 

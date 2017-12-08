@@ -8,7 +8,7 @@ class Edge extends LineSegment{
     Edge(Vertex v1, Vertex v2) {
         super(v1, v2);
         this.normal = new Vector(this.y, -this.x);
-        this.normal_component = this.normal.Dot(v1);
+        this.normal_component = this.normal.Dot(this.v);
         float v1_tangent_component = this.Dot(v1);
         float v2_tangent_component = this.Dot(v2);
         if (v1_tangent_component > v2_tangent_component) {
@@ -36,13 +36,13 @@ class Edge extends LineSegment{
         return sqrt(normal_distance*normal_distance + tangent_distance*tangent_distance);
     }
 
-    public float intersection(LineSegment v) {
+    public float[] intersection(LineSegment v) {
         float crossed = v.Cross(this);
-        float does_not_intersect = 0.0f;
+        float does_not_intersect = {0.0f, 0.0f};
         if (crossed == 0.0f) {
             return does_not_intersect;
         }
-        Vector delta_v = new Vector(this.v1, v.v1);
+        Vector delta_v = new Vector(this.v, v.v);
         float this_t = delta_v.Cross(v)/crossed;
         if (this_t < 0. || this_t > 1.) {
             return does_not_intersect;

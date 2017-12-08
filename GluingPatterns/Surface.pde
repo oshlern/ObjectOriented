@@ -14,7 +14,12 @@ class Surface {
     // Given a graphic object and its polygon, iterate over edges to see if it collides with any edges
     // Returns an array of Position and Velocity
     private Position[] moveAndCheckEdges(GraphicObject object) {
-
+        for (Edge edge : object.polygon.edges) {
+            if (object.vel.magnitude() >= edge.distanceTo(object.pos)) {
+                objec
+                float[] ts = edge.intersection(object.pos_vel);
+            }
+        }
     }
 
 }
