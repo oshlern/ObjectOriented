@@ -59,13 +59,13 @@ class Polygon{
     }
 
     public void display() {
-        stroke(0,0,0);
+        strokeWeight(4);
         for (Edge edge : edges) {
             stroke(edge.fillcolor);
             fill(edge.fillcolor);
-            strokeWeight(4);
             edge.display();
         }
+        strokeWeight(1);
     }
 
 }

@@ -16,6 +16,7 @@ class Edge extends LineSegment{
         this.tangent = new Vector(this.x/this.magnitude(), this.y/this.magnitude());
         this.normal = new Vector(this.y, -this.x);
         this.fillcolor = color(0,0,0);
+        this.gluing = new Boundary(this);
     }
 
     public float normalDistanceTo(Vertex v) {

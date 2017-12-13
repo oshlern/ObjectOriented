@@ -44,7 +44,7 @@ class Gluing {
         pos_vel.theta += this.theta;
         //pos_vel.addVel(1. - time_along_vel);
         float new_mag = pos_vel.magnitude();
-        println(old_mag, new_mag, "Mags");
+        //println(old_mag, new_mag, "Mags");
     }
 
     private float angleBetween(Edge edge1, Edge edge2) {

@@ -46,8 +46,8 @@ class Surface {
             //if (object.pos_vel.magnitude() >= edge.distanceTo(object.pos_vel)) {
                 float[] ts = edge.intersection(object.pos_vel);
                 if (ts[0] != 0.0f) {//{0.0f, 0.0f}) {
-                    println("within range");
-                    println(ts[0], ts[1], object.pos_vel);
+                    //println("within range");
+                    //println(ts[0], ts[1], object.pos_vel);
                     edge.gluing.move(object.pos_vel, ts[0], ts[1]);
                     object.polygon = edge.gluing.glued_edge.polygon;
                     intersected = true;
