@@ -1,7 +1,7 @@
 Surface display;
 Polygon[] polygons;
 
-/* Add a new shape at x, y. */
+/* Add a new shape */
 void addShape() {
     Polygon p;
     GraphicObject object;
@@ -36,14 +36,15 @@ void setup() {
     polygons = new Polygon[] {p1, p2};
     ArrayList<EdgeIdentification> ids = new ArrayList<EdgeIdentification>();
     ids.add(new EdgeIdentification(p1.edges[0], p1.edges[2], true));
-    ids.add(new EdgeIdentification(p1.edges[0], p1.edges[2], false));
+    ids.add(new EdgeIdentification(p2.edges[0], p2.edges[2], false));
     ids.add(new EdgeIdentification(p1.edges[1], p2.edges[1], false));
     ids.add(new EdgeIdentification(p1.edges[3], p2.edges[3], false));
-  
     display = new Surface(polygons, ids);
-    for (int i=0;i<15;i++){
+    for (int i=0;i<5;i++){
         addShape();
     }
+    background(255, 255, 255);
+    display.iterate();
 }
 
 /* 
@@ -52,8 +53,9 @@ void setup() {
   method at a set refresh rate.
 */
 void draw() {
-    //background(255, 255, 255);
+    background(255, 255, 255);
     display.iterate();
+    delay(100);
 }
 
 /* Processing will call this when a key is pressed. */

@@ -20,10 +20,12 @@ class Polygon{
 
     public void display() {
         stroke(0,0,0);
-        for (int i=0; i<this.n-1; i++) {
-            line(vertices[i].x, vertices[i].y, vertices[i+1].x, vertices[i+1].y);
+        for (Edge edge : edges) {
+            stroke(edge.fillcolor);
+            fill(edge.fillcolor);
+            strokeWeight(4);
+            edge.display();
         }
-        line(vertices[n-1].x, vertices[n-1].y, vertices[0].x, vertices[0].y);
     }
 
 }

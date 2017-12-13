@@ -1,6 +1,6 @@
 class LineSegment extends Vector {
 
-    public final Vertex v;
+    public Vertex v;
 
     LineSegment(Vertex v1, Vertex v2) {
         super(v1, v2);
@@ -21,9 +21,12 @@ class LineSegment extends Vector {
         if (t < 0. || t > 1.) {
             return null;
         }
-        return new Vertex(v.x + this.x*t, v.y + this.y*t);
+        return new Vertex(this.v.x + this.x*t, this.v.y + this.y*t);
     }
 
-    public void display() {}
+    public void display() {
+        ellipse(this.v.x, this.v.y, 3, 3);
+        line(this.v.x, this.v.y, this.v.x+this.x, this.v.y+this.y);
+    }
 
 }

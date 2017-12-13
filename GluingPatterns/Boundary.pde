@@ -8,7 +8,7 @@ class Boundary extends Gluing {
         pos_vel.reflectVel(this.this_edge);
         pos_vel.setPos(this.this_edge.atTime(time_along_edge));
         pos_vel.spin = -pos_vel.spin;
-        pos_vel.addVel(1. - time_along_vel);
+        //pos_vel.addVel(1. - time_along_vel);
     }
 
 }

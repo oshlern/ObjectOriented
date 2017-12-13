@@ -14,6 +14,7 @@ public class Line extends GraphicObject {
         float rotated_y = this.SIZE*sin(this.pos_vel.theta);
         fill(this.FILL_COLOR);
         stroke(this.FILL_COLOR);
+        strokeWeight(1);
         line(this.pos_vel.v.x - rotated_x/2, this.pos_vel.v.y - rotated_y/2,
              this.pos_vel.v.x + rotated_x/2, this.pos_vel.v.y + rotated_y/2);
     }

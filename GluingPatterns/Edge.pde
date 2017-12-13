@@ -4,9 +4,7 @@ class Edge extends LineSegment{
     public Gluing gluing; // final
     public final Vector tangent;
     public final Vector normal;
-    private final float normal_component;
-    private final float smaller_tangent_component;
-    private final float bigger_tangent_component;
+    public color fillcolor;
 
     Edge(Vertex v1, Vertex v2, Polygon polygon) {
         this(v1, v2);
@@ -17,30 +15,22 @@ class Edge extends LineSegment{
         super(v1, v2);
         this.tangent = new Vector(this.x/this.magnitude(), this.y/this.magnitude());
         this.normal = new Vector(this.y, -this.x);
-        this.normal_component = this.normal.Dot(this.v);
-        float v1_tangent_component = this.tangent.Dot(v1);
-        float v2_tangent_component = this.tangent.Dot(v2);
-        if (v1_tangent_component > v2_tangent_component) {
-            this.bigger_tangent_component = v1_tangent_component;
-            this.smaller_tangent_component = v2_tangent_component;
-        } else {
-            this.bigger_tangent_component = v2_tangent_component;
-            this.smaller_tangent_component = v1_tangent_component;
-        }
+        this.fillcolor = color(0,0,0);
     }
 
     public float normalDistanceTo(Vertex v) {
-        return abs(this.normal.Dot(v) - this.normal_component);
+        return abs(this.normal.Dot(new Vector(this.v, v)));
     }
 
     public float distanceTo(Vertex v) {
-        float normal_distance = this.normal.Dot(v) - this.normal_component;
+        Vector dist = new Vector(this.v, v);
+        float normal_distance = this.normal.Dot(dist);
         float tangent_distance = 0.0f;
-        float tangent_component = this.tangent.Dot(v);
-        if (tangent_component > bigger_tangent_component) {
-            tangent_distance = tangent_component - bigger_tangent_component;
-        } else if (tangent_component < smaller_tangent_component) {
-            tangent_distance = smaller_tangent_component - tangent_component;
+        float tangent_component = this.tangent.Dot(dist);
+        if (tangent_component > this.magnitude()) {
+            tangent_distance = tangent_component - this.magnitude();
+        } else if (tangent_component < 0.) {
+            tangent_distance = -tangent_component;
         }
         return sqrt(normal_distance*normal_distance + tangent_distance*tangent_distance);
     }
@@ -52,12 +42,12 @@ class Edge extends LineSegment{
             return does_not_intersect;
         }
         Vector delta_v = new Vector(this.v, v.v);
-        float this_t = delta_v.Cross(v)/crossed;
-        if (this_t < 0. || this_t > 1.) {
+        float this_t = -delta_v.Cross(v)/crossed;
+        if (this_t <= 0. || this_t > 1.) {
             return does_not_intersect;
         }
         float v_t = -delta_v.Cross(this)/crossed;
-        if (v_t < 0. || v_t > 1.) {
+        if (v_t <= 0. || v_t > 1.) {
             return does_not_intersect;
         }
         return new float[]{this_t, v_t};

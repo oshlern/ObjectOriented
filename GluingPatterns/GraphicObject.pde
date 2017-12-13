@@ -33,7 +33,7 @@ abstract class GraphicObject {
 
     GraphicObject(Polygon polygon) {
         this.pos_vel = new PosVel(random(polygon.vertices[0].x+1, polygon.vertices[2].x-1), random(polygon.vertices[0].y+1, polygon.vertices[2].y-1), 
-                                  random(0, 2*PI), random(-3., 3.), random(-3., 3.), random(-PI/10, PI/10));
+                                  random(0, 2*PI), random(-1., 1.), random(-1., 1.), random(-PI/10, PI/10));
         this.FILL_COLOR = color(random(0, 255), random(0, 255), random(0, 255));
         this.SIZE = random(5., 25.);
         this.polygon = polygon;
