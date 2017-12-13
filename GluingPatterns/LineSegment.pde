@@ -1,16 +1,17 @@
 class LineSegment extends Vector {
 
     public final Vertex v;
-    
+
     LineSegment(Vertex v1, Vertex v2) {
         super(v1, v2);
         this.v = v;
     }
-    
+
     LineSegment(Vertex v, Vector vel) {
-        super(
+        super(vel.x, vel.y);
+        this.v = v;
     }
-    
+
     LineSegment(float x, float y, float x_vel, float y_vel) {
         super(x_vel, y_vel);
         this.v = Vertex(x, y);

@@ -1,6 +1,8 @@
 class Edge extends LineSegment{
 
-    private final Vector normal;
+    public final Polygon polygon;
+    public final Gluing gluing;
+    public final Vector normal;
     private final float normal_component;
     private final float smaller_tangent_component;
     private final float bigger_tangent_component;
@@ -26,7 +28,7 @@ class Edge extends LineSegment{
 
     public float distanceTo(Vertex v) {
         float normal_distance = this.normal.Dot(v) - this.normal_component;
-        float tangent_distance = 0;
+        float tangent_distance;
         float tangent_component = this.Dot(v);
         if (tangent_component > bigger_tangent_component) {
             tangent_distance = tangent_component - bigger_tangent_component;

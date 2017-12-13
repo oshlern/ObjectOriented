@@ -1,4 +1,4 @@
-public class Square extends GraphicObject {
+ public class Square extends GraphicObject {
 
     Square(float x, float y) {
       super(x, y);

@@ -14,7 +14,7 @@ class Polygon{
         edges[n] = new Edge(vertices[n], vertices[0]);
     }
     
-    public bool isInside(Vertex v) {
+    public boolean isInside(Vertex v) {
 
     }
 

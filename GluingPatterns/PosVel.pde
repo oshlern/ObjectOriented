@@ -5,11 +5,8 @@ class PosVel extends LineSegment {
     public float spin;
 
     PosVel(float x, float y, float theta, float x_vel, float y_vel, float spin) {
-        super(new Vertex(x, y)this.x = x;
-        this.y = y;
+        super(x, y, x_vel, y_vel);
         this.theta = theta;
-        this.x_vel = x_vel;
-        this.y_vel = y_vel;
         this.spin = spin;
     }
     
@@ -24,10 +21,32 @@ class PosVel extends LineSegment {
         this.theta = 0.0f;
         this.spin = 0.0f;
     }
-    
+
+    public void rotateVel(float angle) {
+        float cosine = cos(angle);
+        float sine = sin(angle);
+        float new_x = cosine*this.x - sine*this.y;
+        this.y = sine*this.x + cosine*this.y;
+        this.x = new_x;
+    }
+
+    public void reflectVel(Vector line) {
+        
+    }
+
+    public void setPos(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setPos(Vertex v) {
+        setPos(v.x, v.y);
+    }
+   }
+
     public void addVel() {
-        this.v.x += this.x;
-        this.v.y += this.y;
+        this.v.x += this.x_vel;
+        this.v.y += this.y_;
         this.theta += this.spin;
     }
 
