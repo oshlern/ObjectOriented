@@ -31,4 +31,8 @@ class Gluing {
         pos_vel.addVel(1. - time_along_vel);
     }
 
+    private float angleBetween(Edge edge1, Edge edge2) {
+        
+    }
+
 }

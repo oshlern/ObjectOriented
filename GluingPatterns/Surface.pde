@@ -1,12 +1,19 @@
 class Surface {
 
     private final Polygon[] polygons;
-    private final EdgeIdentification[] edge_identifications;
     protected ArrayList<GraphicObject> objects;
+
+    Surface(Polygon[] polygons, ArrayList<EdgeIdentification> ids) {
+        for (EdgeIdentification id : ids) {
+            id.edge1.gluing = new Gluing(id);
+            id.edge2.gluing = new Gluing(id.edge1.gluing);
+        }
+    }
 
     public void iterate() {
         for (GraphicObject object : this.objects) {
             this.moveAndCheckEdges(object);
+            object.display();
         }
     }
 

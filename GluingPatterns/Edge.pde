@@ -7,6 +7,11 @@ class Edge extends LineSegment{
     private final float smaller_tangent_component;
     private final float bigger_tangent_component;
 
+    Edge(Vertex v1, Vertex v2, Polygon polygon) {
+        this(v1, v2);
+        this.polygon = polygon;
+    }
+
     Edge(Vertex v1, Vertex v2) {
         super(v1, v2);
         this.normal = new Vector(this.y, -this.x);
