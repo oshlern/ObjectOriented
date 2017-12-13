@@ -14,7 +14,7 @@ class LineSegment extends Vector {
 
     LineSegment(float x, float y, float x_vel, float y_vel) {
         super(x_vel, y_vel);
-        this.v = Vertex(x, y);
+        this.v = new Vertex(x, y);
     }
 
     public Vertex atTime(float t) {
@@ -23,5 +23,7 @@ class LineSegment extends Vector {
         }
         return new Vertex(v.x + this.x*t, v.y + this.y*t);
     }
+
+    public void display() {}
 
 }

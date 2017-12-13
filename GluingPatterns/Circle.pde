@@ -4,15 +4,15 @@ public class Circle extends GraphicObject {
         super(x, y);
     }
 
-    Circle() {
-        super();
+    Circle(Polygon polygon) {
+        super(polygon);
     }
 
     /* Draw self on the canvas. */
     public void display() {
         fill(this.FILL_COLOR);
         stroke(this.FILL_COLOR);
-        ellipse(this.pos.x, this.pos.y, this.SIZE, this.SIZE);
+        ellipse(this.pos_vel.v.x, this.pos_vel.v.y, this.SIZE, this.SIZE);
     }
 
 }

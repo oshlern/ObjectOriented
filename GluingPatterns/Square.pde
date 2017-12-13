@@ -4,15 +4,15 @@
       super(x, y);
     }
 
-    Square() {
-      super();
+    Square(Polygon polygon) {
+      super(polygon);
     }
 
     /* Draw self on the canvas.  */
     public void display() {
         fill(this.FILL_COLOR);
         stroke(this.FILL_COLOR);
-        rect(this.pos.x, this.pos.y, this.SIZE, this.SIZE);
+        rect(this.pos_vel.v.x, this.pos_vel.v.y, this.SIZE, this.SIZE);
     }
 
 }

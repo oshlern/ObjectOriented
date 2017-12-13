@@ -1,9 +1,9 @@
 class Gluing {
 
-    Edge this_edge;
-    Edge glued_edge;
-    float theta;
-    boolean reflect;
+    public final Edge this_edge;
+    public final Edge glued_edge;
+    public final float theta;
+    public final boolean reflect;
 
     Gluing(EdgeIdentification id) {// this_edge, glued_edge) {
         this.this_edge = id.edge1;
@@ -16,7 +16,14 @@ class Gluing {
         this.this_edge = opposite_gluing.glued_edge;
         this.glued_edge = opposite_gluing.this_edge;
         this.theta = -opposite_gluing.theta;
-        this.reflect = opposite_gluing.reflect;
+        this. reflect = opposite_gluing.reflect;
+    }
+
+    Gluing(Edge this_edge, Edge glued_edge, float theta, boolean reflect) {
+        this.this_edge = this_edge;
+        this.glued_edge = glued_edge;
+        this.theta = theta;
+        this.reflect = reflect;
     }
 
     public void move(PosVel pos_vel, float time_along_edge, float time_along_vel) {
@@ -25,14 +32,16 @@ class Gluing {
             pos_vel.reflectVel(this.this_edge.normal);
             pos_vel.setPos(this.glued_edge.atTime(1. - time_along_edge));
         } else {
+            pos_vel.spin = -pos_vel.spin;
             pos_vel.setPos(this.glued_edge.atTime(time_along_edge));
         }
         pos_vel.rotateVel(this.theta);
+        pos_vel.theta += this.theta;
         pos_vel.addVel(1. - time_along_vel);
     }
 
     private float angleBetween(Edge edge1, Edge edge2) {
-        
+        return edge2.angle() - edge1.angle();
     }
 
 }

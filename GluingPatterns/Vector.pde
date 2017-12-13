@@ -1,6 +1,6 @@
 class Vector extends Vertex {
 
-    public final float magnitude;
+    public float magnitude; //final
     public float angle;
 
     Vector(Vertex v) {
@@ -40,6 +40,7 @@ class Vector extends Vertex {
             this.angle = atan2(this.y, this.x);
         }
         return this.angle;
+    }
 
     public void normalize() {
         float mag = this.magnitude();

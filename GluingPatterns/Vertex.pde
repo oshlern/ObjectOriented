@@ -1,4 +1,5 @@
 class Vertex {
+
     public float x;
     public float y;
 
@@ -6,4 +7,5 @@ class Vertex {
         this.x = x;
         this.y = y;
     }
+
 }

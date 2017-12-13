@@ -4,18 +4,18 @@ public class Line extends GraphicObject {
         super(x, y);
     }
 
-    Line() {
-        super();
+    Line(Polygon polygon) {
+        super(polygon);
     }
 
     /* Draw self on the canvas. */
     public void display() {
-        float rotated_x = this.SIZE*cos(this.pos.theta);
-        float rotated_y = this.SIZE*sin(this.pos.theta);
+        float rotated_x = this.SIZE*cos(this.pos_vel.theta);
+        float rotated_y = this.SIZE*sin(this.pos_vel.theta);
         fill(this.FILL_COLOR);
         stroke(this.FILL_COLOR);
-        line(this.pos.x - rotated_x/2, this.pos.y - rotated_y/2,
-             this.pos.x + rotated_x/2, this.pos.y + rotated_y/2);
+        line(this.pos_vel.v.x - rotated_x/2, this.pos_vel.v.y - rotated_y/2,
+             this.pos_vel.v.x + rotated_x/2, this.pos_vel.v.y + rotated_y/2);
     }
 
 }

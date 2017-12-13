@@ -1,18 +1,23 @@
 Surface display;
-
-Vertex[] vs1 = {new Vertex(100., 100.), new Vertex(100., 200.), new Vertex(200., 200.), new Vertex(200., 100.)};
-Vertex[] vs2 = {new Vertex(250., 250.), new Vertex(250., 350.), new Vertex(350., 350.), new Vertex(350., 250.)};
-
+Polygon[] polygons;
 
 /* Add a new shape at x, y. */
-void addShape(float x, float y) {
-    if (random(0, 1) < 0.3) {
-        display.insertObject(new Line(x, y));
-    } else if (random(0, 1) < 0.5) {
-        display.insertObject(new Circle(x, y));
+void addShape() {
+    Polygon p;
+    GraphicObject object;
+    if (random(0, 1) < 0.5) {
+        p = polygons[0];
     } else {
-        display.insertObject(new Square(x, y));
+        p = polygons[1];
     }
+    if (random(0, 1) < 0.3) {
+        object = new Line(p);
+    } else if (random(0, 1) < 0.5) {
+        object = new Circle(p);
+    } else {
+        object = new Square(p);
+    }
+    display.insertObject(object);
 }
 
 /*
@@ -24,12 +29,21 @@ void addShape(float x, float y) {
   program first starts running.
 */
 void setup() {
-  size(500, 500);
-  display = new RP2();
-  for (int i=0;i<15;i++){
-     display.insertObject(new Circle());
-     display.insertObject(new Line());
-  }
+    size(500, 500);
+    background(255, 255, 255);
+    Polygon p1 = new Polygon(new Vertex[] {new Vertex(100., 100.), new Vertex(100., 200.), new Vertex(200., 200.), new Vertex(200., 100.)});
+    Polygon p2 = new Polygon(new Vertex[] {new Vertex(250., 250.), new Vertex(250., 350.), new Vertex(350., 350.), new Vertex(350., 250.)});
+    polygons = new Polygon[] {p1, p2};
+    ArrayList<EdgeIdentification> ids = new ArrayList<EdgeIdentification>();
+    ids.add(new EdgeIdentification(p1.edges[0], p1.edges[2], true));
+    ids.add(new EdgeIdentification(p1.edges[0], p1.edges[2], false));
+    ids.add(new EdgeIdentification(p1.edges[1], p2.edges[1], false));
+    ids.add(new EdgeIdentification(p1.edges[3], p2.edges[3], false));
+  
+    display = new Surface(polygons, ids);
+    for (int i=0;i<15;i++){
+        addShape();
+    }
 }
 
 /* 
@@ -38,18 +52,18 @@ void setup() {
   method at a set refresh rate.
 */
 void draw() {
-    background(255, 255, 255);
+    //background(255, 255, 255);
     display.iterate();
 }
 
 /* Processing will call this when a key is pressed. */
 void keyPressed() {
     if (key == 'r') {
-        display.reset();
+        display.resetObjects();
     }
 }
 
 /* Processing will call this when the mouse is clicked */
 void mouseClicked() {
-    addShape(mouseX, mouseY);
+    addShape();
 }
