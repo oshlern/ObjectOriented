@@ -43,8 +43,4 @@ abstract class GraphicObject {
 
     abstract public void display();
 
-    // extraMove is a hook function with no arguments that is called at the beginning of move.
-    // It is optionally overwritten in child classes of GraphicObject
-    protected void extraMove() {}
-
 }
