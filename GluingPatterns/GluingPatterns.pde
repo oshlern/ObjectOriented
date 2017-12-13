@@ -1,5 +1,9 @@
 Surface display;
 
+Vertex[] vs1 = {new Vertex(100., 100.), new Vertex(100., 200.), new Vertex(200., 200.), new Vertex(200., 100.)};
+Vertex[] vs2 = {new Vertex(250., 250.), new Vertex(250., 350.), new Vertex(350., 350.), new Vertex(350., 250.)};
+
+
 /* Add a new shape at x, y. */
 void addShape(float x, float y) {
     if (random(0, 1) < 0.3) {

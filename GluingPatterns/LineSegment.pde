@@ -4,7 +4,7 @@ class LineSegment extends Vector {
 
     LineSegment(Vertex v1, Vertex v2) {
         super(v1, v2);
-        this.v = v;
+        this.v = v1;
     }
 
     LineSegment(Vertex v, Vector vel) {
@@ -23,4 +23,5 @@ class LineSegment extends Vector {
         }
         return new Vertex(v.x + this.x*t, v.y + this.y*t);
     }
+
 }

@@ -1,6 +1,7 @@
 class Vector extends Vertex {
 
     public final float magnitude;
+    public float angle;
 
     Vector(Vertex v) {
         super(v.x, v.y);
@@ -23,16 +24,22 @@ class Vector extends Vertex {
     }
     
     public float absCross(Vertex v) {
-      return abs(this.Cross(v));
+        return abs(this.Cross(v));
     }
 
     // Not initialized in constructor because not always needed.
     public float magnitude() {
         if (this.magnitude == 0.0f) {
-          this.magnitude = this.x*this.x + this.y*this.y;
+            this.magnitude = this.x*this.x + this.y*this.y;
         }
         return this.magnitude;
     }
+
+    public float angle() {
+        if (this.angle == 0.0f) {
+            this.angle = atan2(this.y, this.x);
+        }
+        return this.angle;
 
     public void normalize() {
         float mag = this.magnitude();

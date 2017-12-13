@@ -22,16 +22,16 @@ class PosVel extends LineSegment {
         this.spin = 0.0f;
     }
 
-    public void rotateVel(float angle) {
-        float cosine = cos(angle);
-        float sine = sin(angle);
-        float new_x = cosine*this.x - sine*this.y;
-        this.y = sine*this.x + cosine*this.y;
-        this.x = new_x;
+    public void rotateVel(float theta) {
+        this.angle = this.angle() + theta;
+        this.x = this.magnitude()*cos(this.angle);
+        this.y = this.magnitude()*sin(this.angle);
     }
 
     public void reflectVel(Vector line) {
-        
+        this.angle = 2*line.angle() - this.angle();
+        this.x = this.magnitude()*cos(this.angle);
+        this.y = this.magnitude()*sin(this.angle);
     }
 
     public void setPos(float x, float y) {

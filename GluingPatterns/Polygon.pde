@@ -1,8 +1,7 @@
 class Polygon{
 
-    Vertex[] vertices;
-    Edge[] edges;
-    int n;
+    private final Vertex[] vertices;
+    public final Edge[] edges;
 
     Polygon(Vertex[] vertices) {
         this.vertices = vertices;
