@@ -4,6 +4,10 @@ public class Line extends GraphicObject {
         super(x, y);
     }
 
+    Line(Vertex v) {
+        super(v);
+    }
+
     Line(Polygon polygon) {
         super(polygon);
     }

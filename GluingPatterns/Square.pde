@@ -4,6 +4,10 @@
       super(x, y);
     }
 
+    Square(Vertex v) {
+        super(v);
+    }
+
     Square(Polygon polygon) {
       super(polygon);
     }

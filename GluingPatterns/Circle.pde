@@ -4,6 +4,10 @@ public class Circle extends GraphicObject {
         super(x, y);
     }
 
+    Circle(Vertex v) {
+        super(v);
+    }
+
     Circle(Polygon polygon) {
         super(polygon);
     }

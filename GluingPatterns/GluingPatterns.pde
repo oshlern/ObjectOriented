@@ -3,20 +3,20 @@ Polygon[] polygons;
 
 /* Add a new shape */
 void addShape() {
-    Polygon p;
     GraphicObject object;
-    if (random(0, 1) < 0.5) {
-        p = polygons[0];
-    } else {
-        p = polygons[1];
-    }
+    int index = (int)Math.floor(random(0, polygons.length));
+    Polygon p = polygons[index];
+    Vertex v = p.generatePointInside();
     if (random(0, 1) < 0.3) {
-        object = new Line(p);
-    } else if (random(0, 1) < 0.5) {
-        object = new Circle(p);
+        object = new Line(v);
+    } else if (random(0, 1) < 0.4) {
+        object = new Circle(v);
+    } else  if (random(0, 1) < 0.6) {
+        object = new Square(v);
     } else {
-        object = new Square(p);
+        object = new SoaringBird(v);
     }
+    object.polygon = p;
     display.insertObject(object);
 }
 
