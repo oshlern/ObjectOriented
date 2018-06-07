@@ -37,12 +37,13 @@ void setup() {
     polygons = new Polygon[] {p1, p2, p3};
     ArrayList<EdgeIdentification> ids = new ArrayList<EdgeIdentification>();
     ids.add(new EdgeIdentification(p1.edges[0], p1.edges[2], true));
+    ids.add(new EdgeIdentification(p1.edges[1], p1.edges[3], true));
     ids.add(new EdgeIdentification(p2.edges[0], p2.edges[2], false));
     ids.add(new EdgeIdentification(p1.edges[1], p2.edges[3], false));
     ids.add(new EdgeIdentification(p1.edges[1], p3.edges[3], false));
     ids.add(new EdgeIdentification(p3.edges[1], p3.edges[2], false));
     display = new Surface(polygons, ids);
-    for (int i=0;i<5;i++){
+    for (int i=0;i<25;i++){
         addShape();
     }
     background(255, 255, 255);
